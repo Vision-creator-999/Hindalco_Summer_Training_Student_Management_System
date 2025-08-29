@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            display: flex;
+            width: 80%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .image-section {
+            display: none;
+            flex: 1;
+            background-image: url('https://placehold.co/800x600/6A0DAD/FFFFFF?text=Welcome');
+            background-size: cover;
+            background-position: center;
+        }
+        .login-form-section {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @media (min-width: 768px) {
+            .image-section {
+                display: block;
+            }
+        }
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 40px;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+        }
+        .message-box button {
+            margin-top: 15px;
+            padding: 8px 16px;
+            border-radius: 0.5rem;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <!-- Message box for user notifications -->
+    <div id="message-box" class="message-box hidden">
+        <p id="message-text"></p>
+        <button onclick="document.getElementById('message-box').classList.add('hidden')">OK</button>
+    </div>
+
+    <div class="login-container rounded-2xl shadow-xl">
+        <div class="image-section"></div>
+        <div class="login-form-section">
+            <a href="./index.html"> Home </a>
+            <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-2">Student Login</h2>
+            <p class="text-center text-gray-500 mb-8">Sign in to your account</p>
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="email" class="sr-only">Email</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400"></i>
+                        </div>
+                        <input type="email" id="email" name="email" placeholder="Email" required class="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        <input type="password" id="password" name="password" placeholder="Password" required class="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                    Login
+                </button>
+            </form>
+            <div class="mt-6 text-center text-gray-600">
+                Don't have an account? <a href="std_Registration.html" class="text-blue-600 hover:underline">Register here</a>
+            </div>
+            <div class="mt-4 text-center text-gray-600">
+                Are you an admin? <a href="Adminlogin.html" class="text-blue-600 hover:underline">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC-n-HYZuNKwuONnhpU88KB9uozlgYXggc",
+            authDomain: "hindalco-summer-training.firebaseapp.com",
+            projectId: "hindalco-summer-training",
+            storageBucket: "hindalco-summer-training.firebasestorage.app",
+            messagingSenderId: "509882186806",
+            appId: "1:509882186806:web:24f833ec6fe0a2ee2e6c97",
+            measurementId: "G-HNX2DF4S2M"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Display message box
+        function showMessage(message) {
+            const messageBox = document.getElementById('message-box');
+            const messageText = document.getElementById('message-text');
+            messageText.innerText = message;
+            messageBox.classList.remove('hidden');
+        }
+
+        // Handle form submission
+        const form = document.getElementById('login-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                // Sign in with Firebase Authentication
+                await signInWithEmailAndPassword(auth, email, password);
+                
+                // If successful, redirect to the student portal page
+                window.location.href = 'studentPortal.html';
+
+            } catch (error) {
+                console.error("Login error:", error);
+                let errorMessage = "Login failed. Please check your email and password.";
+                if (error.code === 'auth/invalid-credential') {
+                    errorMessage = "Invalid email or password. Please try again.";
+                }
+                showMessage(errorMessage);
+            }
+        });
+    </script>
+</body>
+</html>

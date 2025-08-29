@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            /* Set the background color to a linear gradient */
+            background-image: linear-gradient(to right, #c644ee, rgb(112, 36, 211), #20c7e0);
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styling for the select dropdown arrow */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.612C1.989 5.078 2.386 4 3.238 4h9.524c.852 0 1.25 1.078.788 1.612l-4.796 5.528a1 1 0 0 1-1.506 0z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 0.75rem;
+        }
+        .form-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 40px;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+        }
+        .message-box button {
+            margin-top: 15px;
+            padding: 8px 16px;
+            border-radius: 0.5rem;
+            background-color: #c644ee;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Message box for user notifications -->
+    <div id="message-box" class="message-box hidden">
+        <p id="message-text"></p>
+        <button onclick="document.getElementById('message-box').classList.add('hidden')">OK</button>
+    </div>
+
+    <!-- Main registration card container -->
+    <div class="form-card w-full max-w-4xl p-8 rounded-2xl shadow-xl space-y-8">
+        <header class="text-center">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800">Student Registration</h1>
+            <p class="mt-2 text-gray-600">Please fill out the form to register for the summer training program.</p>
+        </header>
+
+        <form id="registration-form" class="space-y-6">
+            <!-- Email and Password -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
+                    <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password <span class="text-red-500">*</span></label>
+                    <input type="password" id="password" name="password" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- First Name -->
+                <div>
+                    <label for="firstName" class="block text-sm font-medium text-gray-700">First Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="firstName" name="firstName" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+                <!-- Last Name -->
+                <div>
+                    <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="lastName" name="lastName" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+            </div>
+            <!-- Father's Name and Mobile No -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="fatherName" class="block text-sm font-medium text-gray-700">Father's Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="fatherName" name="fatherName" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+                <div>
+                    <label for="mobileNo" class="block text-sm font-medium text-gray-700">Mobile No. <span class="text-red-500">*</span></label>
+                    <input type="tel" id="mobileNo" name="mobileNo" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+            </div>
+
+            <!-- Date of Birth and Aadhar No. -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
+                    <input type="date" id="dob" name="dob" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+                <div>
+                    <label for="aadharNo" class="block text-sm font-medium text-gray-700">Aadhar No. <span class="text-red-500">*</span></label>
+                    <input type="text" id="aadharNo" name="aadharNo" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+            </div>
+
+            <!-- Department and City -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="department" class="block text-sm font-medium text-gray-700">Department <span class="text-red-500">*</span></label>
+                    <input type="text" id="department" name="department" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+                <div>
+                    <label for="city" class="block text-sm font-medium text-gray-700">City <span class="text-red-500">*</span></label>
+                    <input type="text" id="city" name="city" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+            </div>
+
+            <!-- Training Dates -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="trainingStart" class="block text-sm font-medium text-gray-700">Training Start Date</label>
+                    <input type="date" id="trainingStart" name="trainingStart" class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+                <div>
+                    <label for="trainingEnd" class="block text-sm font-medium text-gray-700">Training End Date</label>
+                    <input type="date" id="trainingEnd" name="trainingEnd" class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+            </div>
+
+            <!-- Address textarea -->
+            <div>
+                <label for="address" class="block text-sm font-medium text-gray-700">Address <span class="text-red-500">*</span></label>
+                <textarea id="address" name="address" rows="4" required class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"></textarea>
+            </div>
+
+            <!-- Register button -->
+            <div class="flex justify-center mt-8">
+                <button type="submit" class="bg-pink-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-colors">
+                    Register
+                </button>
+            </div>
+        </form>
+
+        <footer class="text-center text-gray-600">
+            Already have an account? <a href="userLogin.html" class="text-blue-600 hover:underline">Login here</a>
+        </footer>
+    </div>
+    
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC-n-HYZuNKwuONnhpU88KB9uozlgYXggc",
+            authDomain: "hindalco-summer-training.firebaseapp.com",
+            projectId: "hindalco-summer-training",
+            storageBucket: "hindalco-summer-training.firebasestorage.app",
+            messagingSenderId: "509882186806",
+            appId: "1:509882186806:web:24f833ec6fe0a2ee2e6c97",
+            measurementId: "G-HNX2DF4S2M"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Display message box
+        function showMessage(message) {
+            const messageBox = document.getElementById('message-box');
+            const messageText = document.getElementById('message-text');
+            messageText.innerText = message;
+            messageBox.classList.remove('hidden');
+        }
+        
+        // Handle form submission
+        const form = document.getElementById('registration-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Collect form data
+            const formData = {
+                email: document.getElementById('email').value,
+                firstname: document.getElementById('firstName').value,
+                lastname: document.getElementById('lastName').value,
+                fathername: document.getElementById('fatherName').value,
+                mobileno: document.getElementById('mobileNo').value,
+                dob: document.getElementById('dob').value,
+                'Aadhar no.': document.getElementById('aadharNo').value,
+                department: document.getElementById('department').value,
+                trainingStartDate: document.getElementById('trainingStart').value,
+                trainingEndDate: document.getElementById('trainingEnd').value,
+                city: document.getElementById('city').value,
+                address: document.getElementById('address').value,
+            };
+
+            const password = document.getElementById('password').value;
+
+            try {
+                // 1. Create user with email and password
+                const userCredential = await createUserWithEmailAndPassword(auth, formData.email, password);
+                const user = userCredential.user;
+                
+                // 2. Use the user's UID as the document ID to save data
+                const docRef = doc(db, 'students', user.uid);
+                await setDoc(docRef, formData);
+
+                showMessage("Registration successful! You can now log in.");
+                form.reset();
+            } catch (error) {
+                console.error("Registration error:", error);
+                let errorMessage = "Registration failed. Please try again.";
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = "This email is already in use. Please use a different email or log in.";
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = "The password is too weak. Please use a stronger password.";
+                }
+                showMessage(errorMessage);
+            }
+        });
+    </script>
+</body>
+</html>
